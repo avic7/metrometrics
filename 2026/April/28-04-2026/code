@@ -1,0 +1,82 @@
+library(tidyverse)
+library(showtext)
+
+font_add_google("Outfit", "outfit")
+font_add_google("Merriweather", "merriweather")
+showtext_auto()
+
+# Data
+youtube <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-03-02/youtube.csv', show_col_types = FALSE)
+
+brand_dna <- youtube %>%
+  group_by(brand) %>%
+  summarise(
+    Funny = sum(funny), Patriotic = sum(patriotic), Celebrity = sum(celebrity), 
+    Danger = sum(danger), Animals = sum(animals), Sex = sum(use_sex)
+  ) %>%
+  pivot_longer(cols = -brand, names_to = "Theme", values_to = "Count") %>%
+  group_by(brand) %>%
+  mutate(Percent = Count / sum(Count)) %>%
+  ungroup()
+
+
+editorial_palette <- c(
+  "Funny" = "#E63946",       
+  "Patriotic" = "#1D3557",   
+  "Celebrity" = "#FFCA3A",   
+  "Danger" = "#FB8500",      
+  "Animals" = "#2A9D8F",     
+  "Sex" = "#8338EC"     
+)
+
+p_ads <- ggplot(brand_dna, aes(x = Theme, y = Percent, fill = Theme)) +
+  
+  geom_col(width = 0.85, color = "#FAF9F6", linewidth = 0.5) +
+  coord_polar() +
+  facet_wrap(~brand, ncol = 5) +
+  scale_fill_manual(values = editorial_palette) +
+  
+  labs(
+    title = "The Super Bowl Ad Playbook",
+    subtitle = "Data covering 233 commercials from the 10 brands that broadcast the most spots across all\n21 Super Bowls this century. The petals represent the percentage of each category of\ncommercial which was produced by each brand.",
+    caption = "Data: FiveThirtyEight | Viz: Atharva Vichare"
+  ) +
+  
+
+  theme_minimal(base_family = "outfit") +
+  theme(
+    plot.background = element_rect(fill = "#FAF9F6", color = NA),
+    panel.background = element_rect(fill = "#FAF9F6", color = NA),
+    strip.background = element_rect(fill = "#FAF9F6", color = NA),
+    
+
+    # Title
+    plot.title = element_text(family = "merriweather", face = "bold", size = 36, color = "#2C2C2C", margin = margin(t = 20, b = 10)),
+    # Subtitle
+    plot.subtitle = element_text(size = 18, color = "#5A5A5A", margin = margin(b = 40), lineheight = 1.2),
+    # Caption 
+    plot.caption = element_text(size = 14, color = "#888888", hjust = 1, margin = margin(t = 30)),
+    
+    # Brand titles 
+    strip.text = element_text(family = "merriweather", face = "bold", size = 18, color = "#2C2C2C", margin = margin(b = 15)),
+    
+    axis.title = element_blank(),
+    axis.text.y = element_blank(), 
+    axis.text.x = element_blank(), 
+    
+    # gridlines 
+    panel.grid.major = element_line(color = "#E5E5E5", linewidth = 0.8),
+    panel.grid.minor = element_blank(),
+    
+    # Legend text 
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.text = element_text(size = 16, color = "#5A5A5A", margin = margin(r = 20)),
+    legend.key.size = unit(1, "cm"),
+    
+    
+    plot.margin = margin(20, 20, 20, 20)
+  )
+
+
+print(p_ads)
