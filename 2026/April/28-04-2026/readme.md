@@ -1,7 +1,7 @@
-#  Superbowl Commercials
-This data comes from FiveThirtyEight. They watched 233 commercials from the 10 brands that aired the most spots in all 21 Super Bowls this century, according to superbowl-ads.com. They evaluated commercials using specific criteria, marking every spot as a "yes" or "no" for each. The length of each petal shows the percentage of their total ad inventory dedicated to a specific theme.
+#  The Cereal Revolution
+This data comes from Stats NZ via TidyTuesday. It tracks 90 years of macroeconomic agricultural data (1935–2024) for New Zealand's dominant cereal crops: barley, wheat, maize, and oats. The dashboard evaluates total land availability, crop allocation, and sheer yield over time. To illustrate the impact of modern Ag-Tech, the bottom-right panel introduces a custom "Efficiency Gap" metric. The red shaded area represents total "lost potential"—the exact difference between actual historical yield and what could have been produced if that historical land had operated at modern peak efficiency.
 
 <div align="center">
-  <img width="2794" height="2110" alt="image" src="https://github.com/user-attachments/assets/120bc5ae-9941-4c13-8b6b-4f93c014ddf0" />
-" />
+  <img width="1708" height="979" alt="20260501" src="https://github.com/user-attachments/assets/28ba966a-f559-40f8-8fcb-7fbe4337f39d" />
+
 </div>
